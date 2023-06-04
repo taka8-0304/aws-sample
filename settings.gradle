@@ -1,0 +1,40 @@
+pluginManagement {
+	repositories {
+		mavenLocal()
+		mavenCentral()
+		gradlePluginPortal()
+	}
+}
+dependencyResolutionManagement {
+	repositories {
+		mavenLocal()
+		mavenCentral()
+		gradlePluginPortal()
+	}
+}
+
+includeBuild('./gradle-plugin')
+
+rootProject.name = 'sample-aws'
+
+def targets = [
+	'sample': ''
+]
+
+def addProject(projectName, targetDir) {
+	if (new File(targetDir, 'build.gradle').exists()) {
+		include projectName
+		def p = project(':' + projectName)
+		p.projectDir = targetDir
+	} else {
+		targetDir.listFiles().each {
+			addProject(projectName + '-' + it.name, it)
+		}
+	}
+}
+
+targets.each {
+	def projectName = it.value == ''?rootProject.name:rootProject.name + '-' + it.value
+	def targetDir = new File(rootProject.projectDir, it.key)
+	addProject(projectName, targetDir)
+}
