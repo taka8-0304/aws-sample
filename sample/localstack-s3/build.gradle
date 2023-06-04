@@ -1,0 +1,8 @@
+plugins {
+	id 'my-java-library'
+}
+
+dependencies {
+	implementation group: 'software.amazon.awssdk', name: 's3'
+	testImplementation group: 'org.burningwave', name: 'tools', version: '0.25.6'
+}

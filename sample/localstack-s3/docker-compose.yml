@@ -1,0 +1,11 @@
+version: "3.8"
+
+services:
+  localstack:
+    image: localstack/localstack
+    ports:
+      - 4566:4566 # LocalStack Gateway
+    environment:
+      - DEBUG=1
+      - SERVICES=s3
+      - DOCKER_HOST=unix:///var/run/docker.sock
